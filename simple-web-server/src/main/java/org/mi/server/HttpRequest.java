@@ -1,7 +1,10 @@
-package server;
+package org.mi.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,12 +14,14 @@ public class HttpRequest{
     private String request;
     private Map<String,String> headers;
 
-    public HttpRequest(BufferedReader reader) throws IOException {
-//        InputStream input = clientSocket.getInputStream();
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+    public HttpRequest(Socket clientSocket) throws IOException {
 
+//      this is our request in an input stream which has multiple lines
+        InputStream input = clientSocket.getInputStream();
+        System.out.println(input.toString());
+//      we created a reader to that inputStream And Passed into HttpRequest to create the HttpRequest
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         handleRequestParams(reader.readLine());
-//
         handleRequestHeaders(reader);
     }
 
